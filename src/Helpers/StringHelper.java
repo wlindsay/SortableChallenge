@@ -3,22 +3,17 @@ package Helpers;
 public class StringHelper {
 	
 	/**
-	 * Will remove caps, special characters, and spaces from the input string
+	 * Will remove any character but alphanumerics and replace them with a space. Will also make it all lower case.
 	 * 
 	 * @param s - input string
 	 * @return cleaned string
 	 */
 	static public String cleanString(String s) {
-		return s.toLowerCase().replaceAll("[^a-z0-9]", "");
-	}
-	
-	static public String cleanStringwithSpace(String s) {
 		return s.toLowerCase().replaceAll("[^a-z0-9]", " ");
 	}
 	
 	/**
-	 * Will return true if the two strings are identical or if the LevenshteinDistance is equal to the character difference between the two
-	 * since this indicates that one simply has added characters over the other
+	 * Will check if either s1 is contained within s2 or the opposite
 	 * 
 	 * @param s1
 	 * @param s2
@@ -39,24 +34,34 @@ public class StringHelper {
 		String cp = cleanString(parent);
 		String cc = cleanString(child);
 		
-		if (cp.length() == 0 || cc.length() == 0) {
+		if (cp.isEmpty() || cc.isEmpty()) {
 			return false;
 		} else if (cp.contains(cc)) {
-			return true;
+			String[] split = cp.split(cc);
+			
+			// In all cases seen, following the product model with another number usually indicates a different product
+			if (split.length <= 1 || !Character.isDigit(split[split.length-1].charAt(0))) {
+				return true;
+			}
+			
+			return false;
 		}
 		
+		// Will also check if a subset of the product model is present
 		return areStringsPartiallySimilar(parent, child);
 	}
 	
 	/**
-	 * Will return true if at least 70% of the child is present in the parent with a minimum of 3 characters
+	 * Will check if a subset of the child string is present within the parent string. That subset is defined
+	 * as iterating over the child string while removing parts of the string from the start of the string. This
+	 * is done since it was found that those were the only ones that were sometimes omitted.
 	 * 
 	 * @param parent
 	 * @param child
 	 * @return
 	 */
 	static private boolean areStringsPartiallySimilar(String parent, String child) {
-		String[] ac = cleanStringwithSpace(child).split("\\s+");
+		String[] ac = cleanString(child).split("\\s+");
 		int matchedCharacters = 0;
 		
 		for (int i = 1; i < ac.length; i++) {
