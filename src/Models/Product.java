@@ -2,19 +2,12 @@ package Models;
 
 import java.util.ArrayList;
 
-public class Product {
-	private String product_name;
+public class Product extends ProductMin {
 	private String manufacturer;
 	private String model;
 	
-	private ArrayList<Listing> listings = new ArrayList<Listing>();
-	
 	public Product() {
 		
-	}
-	
-	public String getProductName() {
-		return product_name;
 	}
 	
 	public String getManufacturer() {
