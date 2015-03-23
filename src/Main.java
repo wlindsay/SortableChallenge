@@ -23,6 +23,7 @@ public class Main {
 			parseProducts(productsFilename);
 			parseListings(listingsFileName);
 			outputResult();
+			System.out.println("Done! Results are in a file called results.json in this project's directory.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -116,6 +117,10 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		new Main("data/products.json", "data/listings.json");
+		if (args.length < 2) {
+			System.out.println("Error: Missing parameters. The command should look as follows: java -jar main.jar <products JSON file> <listings JSON file>");
+		} else {
+			new Main(args[0], args[1]);
+		}
 	}
 }
