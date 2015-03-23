@@ -20,12 +20,16 @@ public class Main {
 	
 	public Main(String productsFilename, String listingsFileName) {
 		try {
+			System.out.println("Parsing products.");
 			parseProducts(productsFilename);
+			
+			System.out.println("Associating listings to products.");
 			parseListings(listingsFileName);
+			
 			outputResult();
 			System.out.println("Done! Results are in a file called results.json in this project's directory.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Something went wrong!");
 		}
 	}
 	
@@ -40,8 +44,8 @@ public class Main {
 		try {
 			fis = new FileInputStream(filename);
 		} catch (FileNotFoundException e) {
-			System.out.println("The input products file was not found.");
-			return;
+			System.out.println("Error: The input products file was not found.");
+			throw(e);
 		}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -69,8 +73,8 @@ public class Main {
 		try {
 			fis = new FileInputStream(filename);
 		} catch (FileNotFoundException e) {
-			System.out.println("The input listings file was not found.");
-			return;
+			System.out.println("Error: The input listings file was not found.");
+			throw(e);
 		}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
