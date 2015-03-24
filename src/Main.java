@@ -95,28 +95,15 @@ public class Main {
 	}
 	
 	private void outputResult() throws IOException {
-		PrintWriter writer = new PrintWriter("result.json", "UTF-8");
+		PrintWriter writer = new PrintWriter("result.txt", "UTF-8");
 		Gson gson = new Gson();
-		int numProducts = 0;
-		
-		writer.print("[");
 		
 		for (Manufacturer man : manufacturerController.getManufacturers()) {
-			numProducts = man.getProducts().size();
-			int curProduct = 1;
-			
 			for (Product p : man.getProducts()) {
-				writer.print(gson.toJson(p, ProductMin.class));
-				
-				if (curProduct != numProducts) {
-					writer.println(",");
-				}
-				
-				curProduct++;
+				writer.println(gson.toJson(p, ProductMin.class));
 			}
 		}
-		
-		writer.print("]");
+
 		writer.close();
 	}
 
